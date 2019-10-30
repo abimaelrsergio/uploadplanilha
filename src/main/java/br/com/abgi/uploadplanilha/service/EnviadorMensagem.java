@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class EnviadorMensagem {
 
+	private static final String TOPIC_CONTAINER_FACTORY = "jmsFactoryTopic";
 	private static final String TOPICO_PLANILHAS = "TOPICO.PLANILHAS";
 	private static final String FILA_PLANILHAS = "FILA.PLANILHAS";
 	@Autowired
@@ -19,13 +20,13 @@ public class EnviadorMensagem {
 	private PlanilhaService planilhaService;
 
 	@JmsListener(destination = FILA_PLANILHAS)
-	public void onReceiverQueue(String str) {
-		System.out.println(str);
+	public void onReceiverQueue(String mensagem) {
+		System.out.println(mensagem);
 	}
 
-	@JmsListener(destination = TOPICO_PLANILHAS, containerFactory = "jmsFactoryTopic")
-	public void onReceiverTopic(String str) {
-		System.out.println(str);
+	@JmsListener(destination = TOPICO_PLANILHAS, containerFactory = TOPIC_CONTAINER_FACTORY)
+	public void onReceiverTopic(String mensagem) {
+		System.out.println(mensagem);
 	}
 
 	public void enviarFila(MultipartFile planilha) {
