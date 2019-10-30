@@ -26,10 +26,7 @@ public class ProdutoResource {
 	@PostMapping("/planilhas")
 	public void uploadProdutosExcel(@RequestParam MultipartFile planilha) {
 		planilhaService.gravarNoDisco(planilha);
-		try {
-			enviadorMensagem.enviarFila(planilha);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
+		enviadorMensagem.enviarFila(planilha);
 	}
 }

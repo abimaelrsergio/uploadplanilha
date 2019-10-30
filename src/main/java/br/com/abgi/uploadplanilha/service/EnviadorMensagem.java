@@ -9,6 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class EnviadorMensagem {
 
+	private static final String TOPICO_PLANILHAS = "TOPICO.PLANILHAS";
+	private static final String FILA_PLANILHAS = "FILA.PLANILHAS";
 	@Autowired
 	private JmsTemplate jmsTemplate;
 	@Autowired
@@ -16,21 +18,22 @@ public class EnviadorMensagem {
 	@Autowired
 	private PlanilhaService planilhaService;
 
-	@JmsListener(destination = "FILA.PLANILHAS")
+	@JmsListener(destination = FILA_PLANILHAS)
 	public void onReceiverQueue(String str) {
 		System.out.println(str);
 	}
 
-	@JmsListener(destination = "TOPICO.PLANILHAS", containerFactory = "jmsFactoryTopic")
+	@JmsListener(destination = TOPICO_PLANILHAS, containerFactory = "jmsFactoryTopic")
 	public void onReceiverTopic(String str) {
 		System.out.println(str);
 	}
 
-	public void enviarFila(MultipartFile planilha) throws Exception {
-		jmsTemplate.convertAndSend("FILA.PLANILHAS", planilhaService.obterPath(planilha));
+	public void enviarFila(MultipartFile planilha) {
+
+		jmsTemplate.convertAndSend(FILA_PLANILHAS, planilhaService.obterPath(planilha));
 	}
 
-	public void enivarTopico() throws Exception {
-		jmsTemplateTopic.convertAndSend("TOPICO.PLANILHAS", "{user: 'wolmir', usando: 'tópico'}");
+	public void enivarTopico() {
+		jmsTemplateTopic.convertAndSend(TOPICO_PLANILHAS, "{nome: 'Abimael', sobrenome: 'Sergio'}");
 	}
 }
