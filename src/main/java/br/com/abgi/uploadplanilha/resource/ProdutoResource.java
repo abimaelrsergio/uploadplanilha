@@ -25,8 +25,10 @@ public class ProdutoResource {
 	 */
 	@PostMapping("/planilhas")
 	public void uploadProdutosExcel(@RequestParam MultipartFile planilha) {
+		
 		planilhaService.gravarNoDisco(planilha);
 
 		enviadorMensagem.enviarFila(planilha);
 	}
+	
 }

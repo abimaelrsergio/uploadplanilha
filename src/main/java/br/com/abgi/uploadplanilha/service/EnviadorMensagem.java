@@ -6,6 +6,9 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import br.com.abgi.uploadplanilha.model.Planilha;
+import br.com.abgi.uploadplanilha.repository.PlanilhaRepository;
+
 @Service
 public class EnviadorMensagem {
 
@@ -18,10 +21,15 @@ public class EnviadorMensagem {
 	private JmsTemplate jmsTemplateTopic;
 	@Autowired
 	private PlanilhaService planilhaService;
+	@Autowired
+	private PlanilhaRepository planilhaRepository;
 
 	@JmsListener(destination = FILA_PLANILHAS)
 	public void onReceiverQueue(String mensagem) {
 		System.out.println(mensagem);
+		Planilha planilha = new Planilha();
+		planilha.setPath(mensagem);
+		planilhaRepository.save(planilha);
 	}
 
 	@JmsListener(destination = TOPICO_PLANILHAS, containerFactory = TOPIC_CONTAINER_FACTORY)
