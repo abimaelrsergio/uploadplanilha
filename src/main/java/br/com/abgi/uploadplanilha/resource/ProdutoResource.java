@@ -1,17 +1,19 @@
 package br.com.abgi.uploadplanilha.resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Resource;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import br.com.abgi.uploadplanilha.model.Planilha;
 import br.com.abgi.uploadplanilha.service.EnviadorMensagem;
 import br.com.abgi.uploadplanilha.service.PlanilhaService;
 
 @RestController
-@RequestMapping("/produtos")
 public class ProdutoResource {
 
 	@Autowired
@@ -23,7 +25,7 @@ public class ProdutoResource {
 	/**
 	 * Faz upload de uma planilha excel
 	 */
-	@PostMapping("/planilhas")
+	@PostMapping("/produtos/planilhas")
 	public void uploadProdutosExcel(@RequestParam MultipartFile planilha) {
 		
 		planilhaService.gravarNoDisco(planilha);
@@ -31,4 +33,8 @@ public class ProdutoResource {
 		enviadorMensagem.enviarFila(planilha);
 	}
 	
+	@GetMapping("/produtos/{id}")
+	public Resource<Planilha> buscarPlanilha(){
+		return null;
+	}
 }

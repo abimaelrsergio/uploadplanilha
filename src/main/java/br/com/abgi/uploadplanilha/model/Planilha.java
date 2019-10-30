@@ -11,6 +11,7 @@ public class Planilha {
 	@GeneratedValue
 	private Integer id;
 	private String path;
+	private boolean processado;
 
 	public Planilha() {
 	}
@@ -29,5 +30,13 @@ public class Planilha {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public boolean isProcessado() {
+		return processado;
+	}
+
+	public void setProcessado(boolean processado) {
+		this.processado = processado;
 	}
 }

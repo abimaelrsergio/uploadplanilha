@@ -5,12 +5,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import br.com.abgi.uploadplanilha.model.Planilha;
+import br.com.abgi.uploadplanilha.repository.PlanilhaRepository;
+
 @Service
 public class PlanilhaService {
+	
+	@Autowired
+	private PlanilhaRepository planilhaRepository;
 
 	@Value("${pasta.temporaria}")
 	private String raiz;
@@ -42,6 +49,10 @@ public class PlanilhaService {
 		Path arquivoPath = diretorioPath.resolve(planilha.getOriginalFilename());
 
 		return arquivoPath.toString();
+	}
+
+	public void save(Planilha planilha) {
+		planilhaRepository.save(planilha);	
 	}
 	
 }
