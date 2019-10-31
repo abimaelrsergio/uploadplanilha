@@ -1,12 +1,21 @@
 package br.com.abgi.uploadplanilha.service;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -65,5 +74,34 @@ public class PlanilhaService {
 	public List<Planilha> findAll() {
 		return planilhaRepository.findAll();
 	}
+	
+	@SuppressWarnings("deprecation")
+	public void lerPlanilha(Planilha planilha) throws IOException {
+		InputStream ExcelFileToRead = new FileInputStream(planilha.getPath());
+		XSSFWorkbook wb = new XSSFWorkbook(ExcelFileToRead);
+
+		XSSFSheet sheet = wb.getSheetAt(0);
+		XSSFRow row;
+		XSSFCell cell;
+
+		Iterator<Row> rows = sheet.rowIterator();
+
+		while (rows.hasNext()) {
+			row = (XSSFRow) rows.next();
+			Iterator<Cell> cells = row.cellIterator();
+			while (cells.hasNext()) {
+				cell = (XSSFCell) cells.next();
+
+				if (cell.getCellType() == XSSFCell.CELL_TYPE_STRING) {
+					System.out.print(cell.getStringCellValue() + " ");
+				} else if (cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC) {
+					System.out.print(cell.getNumericCellValue() + " ");
+				}
+			}
+			System.out.println();
+		}
+		wb.close();
+	}
+
 	
 }
