@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,12 +58,18 @@ public class PlanilhaService {
 		planilhaRepository.save(planilha);	
 	}
 
-	public Planilha buscarPlanilha(String planilha) {
-		Planilha planilhaExemplo = new Planilha();
-		planilhaExemplo.setPath(planilha);
-		Example<Planilha> exemplo = Example.of(planilhaExemplo);
-		Optional<Planilha> encontrada = planilhaRepository.findOne(exemplo);
-		return encontrada.get();
+	public Planilha buscarPlanilha(int id) {
+//		Planilha planilhaExemplo = new Planilha();
+//		planilhaExemplo.setPath(id);
+//		Example<Planilha> exemplo = Example.of(planilhaExemplo);
+//		Optional<Planilha> encontrada = planilhaRepository.findOne(exemplo);
+//		return encontrada.get();
+		Optional<Planilha> planilha = planilhaRepository.findById(id);
+		return planilha.get();
+	}
+
+	public List<Planilha> findAll() {
+		return planilhaRepository.findAll();
 	}
 	
 }
