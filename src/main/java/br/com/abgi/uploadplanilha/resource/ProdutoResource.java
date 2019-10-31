@@ -3,6 +3,7 @@ package br.com.abgi.uploadplanilha.resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,8 +33,9 @@ public class ProdutoResource {
 		enviadorMensagem.enviarFila(planilha);
 	}
 	
-	@GetMapping("/produtos/{id}")
-	public Resource<Planilha> buscarPlanilha(){
+	@GetMapping("/produtos/{planilha}")
+	public Resource<Planilha> buscarPlanilha(@PathVariable String planilha){
+		Planilha resultado = planilhaService.buscarPlanilha(planilha);
 		return null;
 	}
 }

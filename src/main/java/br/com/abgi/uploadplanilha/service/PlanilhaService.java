@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -53,6 +55,14 @@ public class PlanilhaService {
 
 	public void save(Planilha planilha) {
 		planilhaRepository.save(planilha);	
+	}
+
+	public Planilha buscarPlanilha(String planilha) {
+		Planilha planilhaExemplo = new Planilha();
+		planilhaExemplo.setPath(planilha);
+		Example<Planilha> exemplo = Example.of(planilhaExemplo);
+		Optional<Planilha> encontrada = planilhaRepository.findOne(exemplo);
+		return encontrada.get();
 	}
 	
 }

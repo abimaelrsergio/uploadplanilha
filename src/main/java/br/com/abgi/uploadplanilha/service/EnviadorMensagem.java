@@ -26,6 +26,7 @@ public class EnviadorMensagem {
 		System.out.println(mensagem);
 		Planilha planilha = new Planilha();
 		planilha.setPath(mensagem);
+		planilha.setProcessado(true);
 		planilhaService.save(planilha);
 	}
 
