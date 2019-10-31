@@ -9,12 +9,15 @@ public class Produto {
 
 	@Id
 	@GeneratedValue
-	private Integer id;	
+	private Integer id;
 	private String lm;
 	private String name;
 	private String freeShipping;
 	private String description;
 	private String price;
+
+	public Produto() {
+	}
 
 	public Produto(String lm, String name, String freeShipping, String description, String price) {
 		super();

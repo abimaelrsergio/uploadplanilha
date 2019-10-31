@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.abgi.uploadplanilha.model.Planilha;
+import br.com.abgi.uploadplanilha.model.Produto;
 import br.com.abgi.uploadplanilha.repository.PlanilhaRepository;
 
 @Service
@@ -76,7 +78,10 @@ public class PlanilhaService {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public void lerPlanilha(Planilha planilha) throws IOException {
+	public List<Produto> lerPlanilha(Planilha planilha) throws IOException {
+		
+		List<Produto> produtos = new ArrayList<>();
+		
 		InputStream ExcelFileToRead = new FileInputStream(planilha.getPath());
 		XSSFWorkbook wb = new XSSFWorkbook(ExcelFileToRead);
 
@@ -87,20 +92,36 @@ public class PlanilhaService {
 		Iterator<Row> rows = sheet.rowIterator();
 
 		while (rows.hasNext()) {
+			
 			row = (XSSFRow) rows.next();
 			Iterator<Cell> cells = row.cellIterator();
-			while (cells.hasNext()) {
-				cell = (XSSFCell) cells.next();
+			
+			String[] linha = new String[5];
+			
+			int count = 0;
 
+			while (cells.hasNext()) {
+				
+				cell = (XSSFCell) cells.next();
+				
 				if (cell.getCellType() == XSSFCell.CELL_TYPE_STRING) {
 					System.out.print(cell.getStringCellValue() + " ");
+					linha[count] = cell.getStringCellValue() + " ";
 				} else if (cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC) {
 					System.out.print(cell.getNumericCellValue() + " ");
+					linha[count] = String.valueOf(cell.getStringCellValue());
 				}
+				
+				count++;
 			}
+			count = 0;
+			Produto produto = new Produto(linha[0], linha[1], linha[2], linha[3], linha[4]);
+			produtos.add(produto);
 			System.out.println();
 		}
 		wb.close();
+		
+		return produtos;
 	}
 
 	

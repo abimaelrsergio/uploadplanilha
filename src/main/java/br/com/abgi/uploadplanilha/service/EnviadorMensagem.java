@@ -1,6 +1,7 @@
 package br.com.abgi.uploadplanilha.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.abgi.uploadplanilha.model.Planilha;
+import br.com.abgi.uploadplanilha.model.Produto;
 
 
 @Service
@@ -30,8 +32,12 @@ public class EnviadorMensagem {
 		planilha.setPath(mensagem);
 
 		try {
-			planilhaService.lerPlanilha(planilha);
+			List<Produto> produtos = planilhaService.lerPlanilha(planilha);
 			planilha.setProcessado(true);
+			
+			for (Produto produto : produtos) {
+				System.out.println(produto.getName());
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 			planilha.setProcessado(false);
