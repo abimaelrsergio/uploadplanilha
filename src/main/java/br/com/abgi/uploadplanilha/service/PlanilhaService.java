@@ -28,7 +28,7 @@ import br.com.abgi.uploadplanilha.repository.PlanilhaRepository;
 
 @Service
 public class PlanilhaService {
-	
+
 	@Autowired
 	private PlanilhaRepository planilhaRepository;
 
@@ -65,7 +65,7 @@ public class PlanilhaService {
 	}
 
 	public void save(Planilha planilha) {
-		planilhaRepository.save(planilha);	
+		planilhaRepository.save(planilha);
 	}
 
 	public Planilha buscarPlanilha(int id) {
@@ -76,12 +76,12 @@ public class PlanilhaService {
 	public List<Planilha> findAll() {
 		return planilhaRepository.findAll();
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	public List<Produto> lerPlanilha(Planilha planilha) throws IOException {
-		
+
 		List<Produto> produtos = new ArrayList<>();
-		
+
 		InputStream ExcelFileToRead = new FileInputStream(planilha.getPath());
 		XSSFWorkbook wb = new XSSFWorkbook(ExcelFileToRead);
 
@@ -91,27 +91,38 @@ public class PlanilhaService {
 
 		Iterator<Row> rows = sheet.rowIterator();
 
+		int primeiraLinha = 1;
+
 		while (rows.hasNext()) {
-			
+
+			if (primeiraLinha == 1) {
+				primeiraLinha++;
+				continue;
+			}
+
 			row = (XSSFRow) rows.next();
 			Iterator<Cell> cells = row.cellIterator();
-			
+
 			String[] linha = new String[5];
-			
+
 			int count = 0;
 
 			while (cells.hasNext()) {
-				
+
 				cell = (XSSFCell) cells.next();
-				
+
 				if (cell.getCellType() == XSSFCell.CELL_TYPE_STRING) {
-					System.out.print(cell.getStringCellValue() + " ");
-					linha[count] = cell.getStringCellValue() + " ";
+
+					String coluna = cell.getStringCellValue();
+					// if (coluna.equals("Category"))
+					// continue;
+					System.out.print(coluna);
+					linha[count] = coluna + " ";
 				} else if (cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC) {
 					System.out.print(cell.getNumericCellValue() + " ");
-					linha[count] = String.valueOf(cell.getStringCellValue());
+					linha[count] = String.valueOf(cell.getNumericCellValue());
 				}
-				
+
 				count++;
 			}
 			count = 0;
@@ -120,9 +131,8 @@ public class PlanilhaService {
 			System.out.println();
 		}
 		wb.close();
-		
+
 		return produtos;
 	}
 
-	
 }
