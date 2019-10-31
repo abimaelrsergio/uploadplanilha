@@ -9,7 +9,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -59,11 +58,6 @@ public class PlanilhaService {
 	}
 
 	public Planilha buscarPlanilha(int id) {
-//		Planilha planilhaExemplo = new Planilha();
-//		planilhaExemplo.setPath(id);
-//		Example<Planilha> exemplo = Example.of(planilhaExemplo);
-//		Optional<Planilha> encontrada = planilhaRepository.findOne(exemplo);
-//		return encontrada.get();
 		Optional<Planilha> planilha = planilhaRepository.findById(id);
 		return planilha.get();
 	}
