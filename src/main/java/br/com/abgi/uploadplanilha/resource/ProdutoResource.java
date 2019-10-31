@@ -47,7 +47,7 @@ public class ProdutoResource {
 		Resource<Planilha> resource = new Resource<Planilha>(resultado);
 		resource.add(linkTo.withRel("todas-planilhas"));
 		
-		return null;
+		return resource;
 	}
 	
 	@GetMapping("/produtos")
