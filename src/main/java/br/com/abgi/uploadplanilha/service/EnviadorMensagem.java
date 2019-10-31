@@ -23,7 +23,6 @@ public class EnviadorMensagem {
 
 	@JmsListener(destination = FILA_PLANILHAS)
 	public void onReceiverQueue(String mensagem) {
-		System.out.println(mensagem);
 		Planilha planilha = new Planilha();
 		planilha.setPath(mensagem);
 		planilha.setProcessado(true);
