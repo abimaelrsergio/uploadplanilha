@@ -77,6 +77,10 @@ public class PlanilhaService {
 		return planilhaRepository.findAll();
 	}
 
+	public void deleteById(int id) {
+		planilhaRepository.deleteById(id);
+	}
+	
 	@SuppressWarnings("deprecation")
 	public List<Produto> lerPlanilha(Planilha planilha) throws IOException {
 

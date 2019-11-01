@@ -1,6 +1,7 @@
 package br.com.abgi.uploadplanilha.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,5 +27,14 @@ public class ProdutoService {
 
 	public List<Produto> findAll() {
 		return produtoRepository.findAll();
+	}
+
+	public Produto deleteById(int id) {
+		Optional<Produto> optional = produtoRepository.findById(id);
+		if (optional.isPresent()) {
+			produtoRepository.deleteById(id);
+			return optional.get();
+		}
+		return null;
 	}
 }
