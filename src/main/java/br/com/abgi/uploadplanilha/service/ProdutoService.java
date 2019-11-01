@@ -37,4 +37,11 @@ public class ProdutoService {
 		}
 		return null;
 	}
+
+	public Integer findById(Integer id) {
+		Optional<Produto> optional = produtoRepository.findById(id);
+		if (optional.isPresent())
+			return optional.get().getId();
+		return null;
+	}
 }

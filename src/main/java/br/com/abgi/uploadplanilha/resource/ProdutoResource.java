@@ -65,7 +65,11 @@ public class ProdutoResource {
 	 */
 	@PostMapping("/produtos/produto")
 	public ResponseEntity<Object> atualizaProduto(@RequestBody Produto produto) {
-
+		
+		Integer id = produtoService.findById(produto.getId());
+		if (id == null)
+			throw new ProdutoNotFoundException("id-" + id);
+		
 		Produto produtoSalvo = produtoService.save(produto);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(produtoSalvo.getId()).toUri();
