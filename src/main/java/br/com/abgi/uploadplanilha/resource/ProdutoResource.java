@@ -57,6 +57,12 @@ public class ProdutoResource {
 		return resource;
 	}
 
+	/**
+	 * Seja possível visualizar
+	 * 
+	 * @param produto
+	 * @return
+	 */
 	@PostMapping("/produtos/produto")
 	public ResponseEntity<Object> atualizaProduto(@RequestBody Produto produto) {
 
