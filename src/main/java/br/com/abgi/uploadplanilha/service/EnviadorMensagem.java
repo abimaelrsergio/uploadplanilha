@@ -29,10 +29,7 @@ public class EnviadorMensagem {
 	private ProdutoService produtoService;
 
 	@JmsListener(destination = FILA_PLANILHAS, containerFactory = "jmsFactory")
-	//public void onReceiverQueue(String mensagem) {
 	public void onReceiverQueue(Planilha planilha) {
-//		Planilha planilha = new Planilha();
-//		planilha.setPath(mensagem);
 
 		try {
 			List<Produto> produtos = planilhaService.lerPlanilha(planilha);
