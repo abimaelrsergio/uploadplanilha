@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.abgi.uploadplanilha.model.Planilha;
+import br.com.abgi.uploadplanilha.model.Produto;
 import br.com.abgi.uploadplanilha.service.EnviadorMensagem;
 import br.com.abgi.uploadplanilha.service.PlanilhaService;
+import br.com.abgi.uploadplanilha.service.ProdutoService;
 
 @RestController
 public class ProdutoResource {
@@ -24,6 +26,9 @@ public class ProdutoResource {
 
 	@Autowired
 	private EnviadorMensagem enviadorMensagem;
+	
+	@Autowired
+	private ProdutoService produtoService;
 
 	/**
 	 * Faz upload de uma planilha excel
@@ -61,7 +66,7 @@ public class ProdutoResource {
 	}
 	
 	@GetMapping("/produtos")
-	public List<Planilha> retrieveAllProdutos() {
-		return planilhaService.findAll();
+	public List<Produto> retrieveAllProdutos() {
+		return produtoService.findAll();
 	}
 }

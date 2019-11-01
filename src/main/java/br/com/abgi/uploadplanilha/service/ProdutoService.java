@@ -1,5 +1,7 @@
 package br.com.abgi.uploadplanilha.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,5 +22,9 @@ public class ProdutoService {
 			produto.setId(produtoBase.getId());
 
 		return produtoRepository.save(produto);
+	}
+
+	public List<Produto> findAll() {
+		return produtoRepository.findAll();
 	}
 }
