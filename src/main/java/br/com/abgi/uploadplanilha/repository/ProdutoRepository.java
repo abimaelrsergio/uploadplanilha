@@ -8,4 +8,5 @@ import br.com.abgi.uploadplanilha.model.Produto;
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 
+	Produto findByLm(String pLm);
 }

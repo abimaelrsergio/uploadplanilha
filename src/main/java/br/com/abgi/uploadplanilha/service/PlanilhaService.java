@@ -95,12 +95,13 @@ public class PlanilhaService {
 
 		while (rows.hasNext()) {
 
-			if (primeiraLinha == 1) {
+			row = (XSSFRow) rows.next();
+			
+			if (primeiraLinha <= 2) {
 				primeiraLinha++;
 				continue;
 			}
 
-			row = (XSSFRow) rows.next();
 			Iterator<Cell> cells = row.cellIterator();
 
 			String[] linha = new String[5];
