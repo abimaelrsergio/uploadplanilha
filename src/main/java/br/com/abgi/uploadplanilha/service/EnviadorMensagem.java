@@ -52,14 +52,18 @@ public class EnviadorMensagem {
 		System.out.println(mensagem);
 	}
 
-	public void enviarFila(MultipartFile file) {
+	public Integer enviarFila(MultipartFile file) {
 
 		Planilha planilha = new Planilha();
 		planilha.setPath(planilhaService.obterPath(file));
-		planilhaService.save(planilha);
 		planilha.setProcessado(false);
+
+		planilha = planilhaService.save(planilha);
+		
 		
 		jmsTemplate.convertAndSend(FILA_PLANILHAS, planilha);
+		
+		return planilha.getId();
 	}
 
 	public void enivarTopico() {

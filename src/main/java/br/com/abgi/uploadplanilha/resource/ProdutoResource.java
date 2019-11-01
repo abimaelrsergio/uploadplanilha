@@ -27,23 +27,33 @@ public class ProdutoResource {
 
 	/**
 	 * Faz upload de uma planilha excel
+	 * @return Integer
 	 */
 	@PostMapping("/produtos/planilhas")
-	public void uploadProdutosExcel(@RequestParam MultipartFile planilha) {
+	public Resource<Integer> uploadProdutosExcel(@RequestParam MultipartFile planilha) {
 		
 		planilhaService.gravarNoDisco(planilha);
 
-		enviadorMensagem.enviarFila(planilha);
+		Integer id = enviadorMensagem.enviarFila(planilha);
+		
+		if (id == null)
+			return null;
+		
+		ControllerLinkBuilder linkTo = ControllerLinkBuilder.linkTo(ControllerLinkBuilder.methodOn(this.getClass()).buscarPlanilha(id));
+		Resource<Integer> resource = new Resource<Integer>(id);
+		resource.add(linkTo.withRel("buscar-resultado"));
+		
+		return resource;
 	}
 	
 	@GetMapping("/produtos/{id}")
 	public Resource<Planilha> buscarPlanilha(@PathVariable int id){
-		Planilha resultado = planilhaService.buscarPlanilha(id);
+		Planilha resultado = planilhaService.findById(id);
 		
-		if (resultado == null)
+		if (!resultado.isProcessado())
 			return null;
 		
-		ControllerLinkBuilder linkTo = ControllerLinkBuilder.linkTo(ControllerLinkBuilder.methodOn(this.getClass()).retrieveAllUsers());
+		ControllerLinkBuilder linkTo = ControllerLinkBuilder.linkTo(ControllerLinkBuilder.methodOn(this.getClass()).retrieveAllProdutos());
 		Resource<Planilha> resource = new Resource<Planilha>(resultado);
 		resource.add(linkTo.withRel("todas-planilhas"));
 		
@@ -51,7 +61,7 @@ public class ProdutoResource {
 	}
 	
 	@GetMapping("/produtos")
-	public List<Planilha> retrieveAllUsers() {
+	public List<Planilha> retrieveAllProdutos() {
 		return planilhaService.findAll();
 	}
 }

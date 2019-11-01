@@ -64,11 +64,11 @@ public class PlanilhaService {
 		return arquivoPath.toString();
 	}
 
-	public void save(Planilha planilha) {
-		planilhaRepository.save(planilha);
+	public Planilha save(Planilha planilha) {
+		return planilhaRepository.save(planilha);
 	}
 
-	public Planilha buscarPlanilha(int id) {
+	public Planilha findById(int id) {
 		Optional<Planilha> planilha = planilhaRepository.findById(id);
 		return planilha.get();
 	}

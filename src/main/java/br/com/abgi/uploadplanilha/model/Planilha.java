@@ -9,10 +9,6 @@ import javax.persistence.Id;
 @Entity
 public class Planilha implements Serializable {
 
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6073520787222223767L;
 	@Id
 	@GeneratedValue
@@ -50,5 +46,9 @@ public class Planilha implements Serializable {
 	@Override
 	public String toString() {
 		return "Planilha [id=" + id + ", path=" + path + ", processado=" + processado + "]";
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 }
