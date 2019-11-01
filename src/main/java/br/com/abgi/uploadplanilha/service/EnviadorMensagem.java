@@ -25,6 +25,8 @@ public class EnviadorMensagem {
 	private JmsTemplate jmsTemplateTopic;
 	@Autowired
 	private PlanilhaService planilhaService;
+	@Autowired
+	private ProdutoService produtoService;
 
 	@JmsListener(destination = FILA_PLANILHAS)
 	public void onReceiverQueue(String mensagem) {
@@ -37,6 +39,7 @@ public class EnviadorMensagem {
 			
 			for (Produto produto : produtos) {
 				System.out.println(produto.getName());
+				produtoService.save(produto);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
