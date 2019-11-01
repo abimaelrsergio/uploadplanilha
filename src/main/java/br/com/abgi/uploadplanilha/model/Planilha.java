@@ -1,12 +1,19 @@
 package br.com.abgi.uploadplanilha.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Planilha {
+public class Planilha implements Serializable {
 
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6073520787222223767L;
 	@Id
 	@GeneratedValue
 	private Integer id;
@@ -38,5 +45,10 @@ public class Planilha {
 
 	public void setProcessado(boolean processado) {
 		this.processado = processado;
+	}
+
+	@Override
+	public String toString() {
+		return "Planilha [id=" + id + ", path=" + path + ", processado=" + processado + "]";
 	}
 }

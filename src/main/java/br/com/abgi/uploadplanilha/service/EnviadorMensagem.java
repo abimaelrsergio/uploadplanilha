@@ -28,10 +28,11 @@ public class EnviadorMensagem {
 	@Autowired
 	private ProdutoService produtoService;
 
-	@JmsListener(destination = FILA_PLANILHAS)
-	public void onReceiverQueue(String mensagem) {
-		Planilha planilha = new Planilha();
-		planilha.setPath(mensagem);
+	@JmsListener(destination = FILA_PLANILHAS, containerFactory = "jmsFactory")
+	//public void onReceiverQueue(String mensagem) {
+	public void onReceiverQueue(Planilha planilha) {
+//		Planilha planilha = new Planilha();
+//		planilha.setPath(mensagem);
 
 		try {
 			List<Produto> produtos = planilhaService.lerPlanilha(planilha);
@@ -54,9 +55,14 @@ public class EnviadorMensagem {
 		System.out.println(mensagem);
 	}
 
-	public void enviarFila(MultipartFile planilha) {
+	public void enviarFila(MultipartFile file) {
 
-		jmsTemplate.convertAndSend(FILA_PLANILHAS, planilhaService.obterPath(planilha));
+		Planilha planilha = new Planilha();
+		planilha.setPath(planilhaService.obterPath(file));
+		planilhaService.save(planilha);
+		planilha.setProcessado(false);
+		
+		jmsTemplate.convertAndSend(FILA_PLANILHAS, planilha);
 	}
 
 	public void enivarTopico() {
